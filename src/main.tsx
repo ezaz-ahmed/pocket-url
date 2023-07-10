@@ -1,10 +1,16 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import App from './App.tsx'
-import './index.css'
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { Route } from 'wouter';
+
+import './index.css';
+import Entry from './routes/Entry.tsx';
+
+const Router = () => {
+  return <Route path='/' component={Entry} />;
+};
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-)
+    <Router />
+  </React.StrictMode>
+);
