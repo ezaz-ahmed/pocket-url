@@ -1,5 +1,6 @@
 import { Link } from 'wouter';
-import { Button } from '~/components/Button';
+
+import { Button } from '~/components/ui/Button';
 import SwitchDarkMode from './SwitchDarkMode';
 
 export const Navbar = () => {
