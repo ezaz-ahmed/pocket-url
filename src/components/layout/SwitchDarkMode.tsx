@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
+
 import MoonIcon from '~/assets/MoonIcon';
 import SunIcon from '~/assets/SunIcon';
-
-import { Button } from '../ui/button';
+import { Button } from '~/components/ui/button';
 
 const SwitchDarkMode = () => {
   const [isDarkMode, setIsDarkMode] = useState(false);
