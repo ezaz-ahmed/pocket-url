@@ -1,10 +1,29 @@
-import { useState } from 'react';
-import { Button } from '~/components/ui/Button';
+import { FormEvent, useState, useRef, ChangeEvent } from 'react';
 
+import { Button } from '~/components/ui/Button';
 import { Input } from '~/components/ui/Input';
+import { isUrlValid } from '~/lib/utils';
 
 const Entry = () => {
+  const linkInput = useRef<HTMLInputElement>(null);
+
   const [link, setLink] = useState<string>('');
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (!linkInput.current) return;
+
+    if (isUrlValid(link)) {
+      console.log(link)
+    } else {
+      linkInput.current.setCustomValidity("Please enter a valid URL")
+    }
+  }
+
+  const handleInput = (event: ChangeEvent<HTMLInputElement>) => {
+    linkInput.current?.setCustomValidity("")
+    setLink(event.target.value)
+  }
 
   return (
     <div className=' flex flex-col items-center'>
@@ -18,15 +37,17 @@ const Entry = () => {
         </h1>
       </div>
 
-      <form className='flex w-full max-w-sm items-center space-x-2'>
+      <form className='flex w-full max-w-sm items-center justify-between space-x-2' onSubmit={handleSubmit}>
         <Input
           type='text'
+          ref={linkInput}
           required
           value={link}
-          onChange={event => setLink(event.target.value)}
-          placeholder='Enter your long URL here'
+          onChange={handleInput}
+          placeholder='Paste your long URL here'
         />
-        <Button type='submit'>Shorten</Button>
+
+        <Button>Shorten</Button>
       </form>
     </div>
   );

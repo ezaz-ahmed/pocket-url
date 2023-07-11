@@ -1,7 +1,6 @@
+import { Moon, Sun } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
-import MoonIcon from '~/assets/MoonIcon';
-import SunIcon from '~/assets/SunIcon';
 import { Button } from '~/components/ui/Button';
 
 const SwitchDarkMode = () => {
@@ -50,7 +49,7 @@ const SwitchDarkMode = () => {
       className=' dark:text-neutral-300 '
     >
       <span className='sr-only'>Enable dark mode</span>
-      {isDarkMode ? <MoonIcon /> : <SunIcon />}
+      {isDarkMode ? <Moon /> : <Sun />}
     </Button>
   );
 };
