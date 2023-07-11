@@ -1,20 +1,68 @@
-import { FormEvent, useState, useRef, ChangeEvent } from 'react';
+import { RefreshCcw } from 'lucide-react';
+import { FormEvent, useState, useRef, ChangeEvent, useEffect } from 'react';
 
 import { Button } from '~/components/ui/Button';
 import { Input } from '~/components/ui/Input';
+import { ShortenedUrl, ShortenedUrlResponse } from '~/lib/types';
 import { isUrlValid } from '~/lib/utils';
 
 const Entry = () => {
   const linkInput = useRef<HTMLInputElement>(null);
-
+  const [shortenedUrls, setShortenedUrls] = useState<ShortenedUrl[]>([]);
   const [link, setLink] = useState<string>('');
+  const [loading, setLoading] = useState<boolean>(false)
+  const [error, setError] = useState<string>("")
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+
+  useEffect(() => {
+    linkInput.current?.focus()
+
+    const savedUrls = localStorage.getItem('shortenedUrls');
+    if (savedUrls) {
+      setShortenedUrls(JSON.parse(savedUrls));
+    }
+  }, [])
+
+
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     if (!linkInput.current) return;
 
     if (isUrlValid(link)) {
-      console.log(link)
+
+      try {
+        setLoading(true)
+        const response = await fetch(
+          `https://api.shrtco.de/v2/shorten?url=${link}`
+        )
+        const data = await response.json() as ShortenedUrlResponse
+
+        setLoading(false)
+        setLink("")
+
+        if (data.ok) {
+          const { result } = data;
+          const updatedUrls = [...shortenedUrls, result];
+
+
+          setShortenedUrls(updatedUrls);
+
+          localStorage.setItem('shortenedUrls', JSON.stringify(updatedUrls))
+        } else {
+          throw new Error("Something went wrong!")
+        }
+
+
+      } catch (error: any) {
+        setLoading(false)
+        setLink("")
+
+        if (error.message) {
+          setError(error.message)
+        } else {
+          setError("Something went wrong!")
+        }
+      }
     } else {
       linkInput.current.setCustomValidity("Please enter a valid URL")
     }
@@ -47,8 +95,18 @@ const Entry = () => {
           placeholder='Paste your long URL here'
         />
 
-        <Button>Shorten</Button>
+        <Button disabled={loading} className=' w-28'>
+          {loading ?
+
+            <RefreshCcw className="mr-3 h-5 w-5 animate-spin text-white dark:dark:text-gray-900" />
+
+            :
+            <span className="font-medium">Shorten</span>
+          }
+        </Button>
       </form>
+
+      {error && <p>{error}</p>}
     </div>
   );
 };
