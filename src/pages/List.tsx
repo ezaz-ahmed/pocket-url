@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
-import { FilesIcon,  Pencil } from 'lucide-react';
+import { FilesIcon, Pencil } from 'lucide-react';
 import { Button } from '~/components/ui/Button';
 import { Card } from '~/components/ui/Card';
 import { ShortenedUrl } from '~/lib/types';
+import { Link } from 'wouter';
 
 const List = () => {
   const [urls, setUrls] = useState<ShortenedUrl[]>([]);
@@ -16,7 +17,7 @@ const List = () => {
   }, []);
 
   return (
-    <div className=' max-w-5xl mx-auto px-4'>
+    <div className=' wrapper'>
       <h2 className='text-3xl font-bold mb-4'>Your Generated URLs</h2>
 
       {urls.length > 0 ? (
@@ -36,15 +37,17 @@ const List = () => {
                 </div>
 
                 <div className=' flex gap-2'>
-                  <Button
-                    variant='outline'
-                    size='icon'
-                    onClick={() =>
-                      navigator.clipboard.writeText(url.short_link)
-                    }
-                  >
-                    <FilesIcon className='h-4 w-4' />
-                  </Button>
+                  <Link href={`/edit/${index}`}>
+                    <Button
+                      variant='outline'
+                      size='icon'
+                      onClick={() =>
+                        navigator.clipboard.writeText(url.short_link)
+                      }
+                    >
+                      <Pencil className='h-4 w-4' />
+                    </Button>
+                  </Link>
 
                   <Button
                     variant='outline'
@@ -53,7 +56,7 @@ const List = () => {
                       navigator.clipboard.writeText(url.short_link)
                     }
                   >
-                    <Pencil /> className='h-4 w-4' />
+                    <FilesIcon className='h-4 w-4' />
                   </Button>
                 </div>
               </Card>

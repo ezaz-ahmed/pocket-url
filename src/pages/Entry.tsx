@@ -36,6 +36,7 @@ const Entry = () => {
         const response = await fetch(
           `https://api.shrtco.de/v2/shorten?url=${link}`
         );
+
         const data = (await response.json()) as ShortenedUrlResponse;
 
         setLoading(false);
@@ -72,7 +73,7 @@ const Entry = () => {
   };
 
   return (
-    <div className=' flex flex-col items-center'>
+    <div className=' wrapper flex flex-col items-center'>
       <div className='mx-auto mb-10 mt-12 max-w-md px-2.5 text-center sm:max-w-lg sm:px-0'>
         <h1 className='mt-5 font-display text-4xl font-extrabold leading-[1.15] text-black sm:text-6xl sm:leading-[1.15]'>
           Short Links With

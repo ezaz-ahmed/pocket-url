@@ -6,7 +6,7 @@ import SwitchDarkMode from './SwitchDarkMode';
 export const Navbar = () => {
   return (
     <nav className='sticky top-0 z-10 bg-transparent backdrop-filter backdrop-blur-lg'>
-      <div className='max-w-5xl mx-auto px-4'>
+      <div className=' wrapper'>
         <div className='flex items-center justify-between h-16 '>
           <Link
             href='/'
