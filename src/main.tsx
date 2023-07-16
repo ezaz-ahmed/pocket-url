@@ -1,4 +1,4 @@
-import React from 'react';
+import { StrictMode } from 'react';
 import ReactDOM from 'react-dom/client';
 import { Route, Switch } from 'wouter';
 
@@ -7,6 +7,7 @@ import Entry from '~/pages/Entry';
 import List from '~/pages/List';
 import Edit from '~/pages/Edit';
 import PageNotFound from '~/pages/404';
+
 import './index.css';
 
 const App = () => {
@@ -16,7 +17,7 @@ const App = () => {
       <Switch>
         <Route path='/' component={Entry} />
         <Route path='/list' component={List} />
-        <Route path='/edit/:id' component={Edit} />
+        <Route path='/edit/:id'>{params => <Edit id={params.id} />}</Route>
         <Route path='/:rest*' component={PageNotFound} />
       </Switch>
     </>
@@ -24,7 +25,7 @@ const App = () => {
 };
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  <StrictMode>
     <App />
-  </React.StrictMode>
+  </StrictMode>
 );
