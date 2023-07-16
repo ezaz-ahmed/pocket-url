@@ -2,8 +2,9 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { Route, Router } from 'wouter';
 
-import Entry from '~/pages/Entry';
 import { Navbar } from '~/components/layout/Navbar';
+import Entry from '~/pages/Entry';
+import List from '~/pages/List';
 import './index.css';
 
 const App = () => {
@@ -11,6 +12,7 @@ const App = () => {
     <Router>
       <Navbar />
       <Route path='/' component={Entry} />
+      <Route path='/list' component={List} />
     </Router>
   );
 };
